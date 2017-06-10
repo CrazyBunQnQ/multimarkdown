@@ -7,11 +7,3 @@
 *.iml
 out
 gen
-
-.idea/markdown-navigator.xml
-.idea/markdown-navigator/
-.idea/misc.xml
-.idea/modules.xml
-.idea/workspace.xml
-multimarkdown.iml
-out/
