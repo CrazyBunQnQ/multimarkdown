@@ -33,15 +33,19 @@ open lib
 
 ## 附：破解成功后的截图
 Windwos:
+
 ![顶部菜单](http://wx3.sinaimg.cn/mw690/a6e9cb00ly1fgglsgj65ej20wg01qmx8.jpg)
 
 Mac:
+
 ![Mac 顶部菜单](http://wx2.sinaimg.cn/mw690/a6e9cb00ly1fggoxvn9sdj21kw04fmyp.jpg)
+
 解放全部功能！
 
 ![破解成功](http://wx3.sinaimg.cn/mw690/a6e9cb00ly1fggoxu26ohj21ks17mn91.jpg)
->这个天数，哈哈哈，设置 Integer.MAX_VALUE 是不是有点高了。。。
+>这个天数，哈哈哈，设置 `Integer.MAX_VALUE` 是不是有点高了。。。
 
 ## 参考
 [IntelliJ IDEA-MultiMarkdown破解](http://www.jianshu.com/p/b70e250bed37)
+
 [JetBrains 官方文档中介绍的各个系统下的 IDEA 路径（配置路径、缓存路径、插件路径和日志路径）](https://www.jetbrains.com/help/idea/2017.1/directories-used-by-intellij-idea-to-store-settings-caches-plugins-and-logs.html)
