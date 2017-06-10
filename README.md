@@ -16,6 +16,15 @@
 **替换后一定要确认下被替换的 .class 文件修改时间与其他文件修改时间不同。**
 ![确认替换成功](http://wx2.sinaimg.cn/mw690/a6e9cb00ly1fgglx44looj20ps091abm.jpg)
 
+## Mac 系统破解插件输入命令```cd ~/Library/Application\ Support
+ls```
+根据查到的 IDEA 版本文件夹，进入插件目录
+```
+cd IntelliJIdea2017.1/idea-multimarkdownopen lib
+```
+输入完上述指令后会弹出插件目录，将修改好的 multimarkdown.jar 文件替换进去，重启 IDEA 即可，如图：
+![替换 jar 包]()
+
 ## 附：破解成功后的截图
 ![顶部菜单](http://wx3.sinaimg.cn/mw690/a6e9cb00ly1fgglsgj65ej20wg01qmx8.jpg)
 解放全部功能！
@@ -24,4 +33,3 @@
 >这个天数，哈哈哈，设置 Integer.MAX_VALUE 是不是有点高了。。。
 
 ![破解版本](http://wx4.sinaimg.cn/mw690/a6e9cb00ly1fggm552ub7j20l00ghwfu.jpg)
-我破解的版本是 2.3.7 版本
