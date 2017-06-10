@@ -33,18 +33,15 @@ public class LicenseAgent {
 
     final static private String agent_signature = "475f99b03f6ec213729d7f5d577c80aa";
     final static private String license_pub = "-----BEGIN PUBLIC KEY-----\n" +
-            "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAlnefMGqNu1Q9hcI2Rd8G\n" +
-            "xyKlXQIFyXWIkYODRrLjvEwXYw0yksgjZeIC4g+hakyQNiN+TGE/xvo3fqB0CU4A\n" +
-            "aE33Mu7jB27dt1IItcmBhJBwIhmZDc0SWNj6ywvnLeUU/NSWWbJ1SaXzPQJ2Mm5T\n" +
-            "Mr3wDFhCTp80pN4svOQmdQPFSKXwdGI+n8gJvc28vRgD8As2XxgkYsZPNjefOsla\n" +
-            "GHS8CNw6uI8Ijcf9hfX22twQZ+auYNL/vqtBEKq2jNLwoHTo68s+0JWJu2YILlIe\n" +
-            "VQzXcXZyhhAVdZrMNGhBPiXUia6YrJpqZNDZ35CE+Y6ecs9c5AG2wpFJHnic2cjZ\n" +
-            "Kh+ba83DpA3GxYa1OGMGZNaIqCjuK7A82ZPriXsoxL6YJzqSlbF/2l2x4Y3VoVTF\n" +
-            "LWKEpjvLOuDOev0CH41nzkGD4Yo5CwHPZFun/WekqUBUXtxR/uH0ThoxV93exTLc\n" +
-            "YwWC5GqVZfN38Ye7iDljIFVzxxP3unBy0FItg52407CZyH/gTB+Zm++fZJdKbZcl\n" +
-            "UFvxtACEJvdgdM30FHuQlvS53mEXOMAzpJPVZu2gRoTl8cSO3GKxaNP9dmPCzD4a\n" +
-            "gO/kVrO/c6DerwWvCJJhifKlDc6CfjM3FfWsVI2gw3WduFPJcIsLxlUqzBh95rA1\n" +
-            "R+BTr2n3DV41OK5AwtCQO40CAwEAAQ==\n" +
+            "JQmNor+RZiEmKUIUMD9JdHkGgl8UJ7E9kz9T9CBN3qjD0aPIe7nRsL8wwHu2XDTp72GmCspZ9zjF\n" +
+            "JFx3iDDXm38t7ajQjE4qYw1cwVOrmCScLC6dyfq/OaPr64e2QCbKHCl+gH9IhOMFEsKuoHBAhwgW\n" +
+            "EBxt/HQkIKB/gayOL5LI2Op6UbjZqKp9OE5/ziY09cLV5tsO4tTOfcijyyBa0j91qatEyIYeNR37\n" +
+            "CPfKHNo5GVflUIb6ZH+OUARt0WI5Xw8VqGxX+52Sr/SdNCbDaFD15fs17k40fi+aIYR6FwRRERAS\n" +
+            "cGTu6N583oCpzCYJxZ00TiTkH4MZPppj4vOKPLpCa8YKMp/axE7dO7WowdQRtEFmhlWCL36OugQG\n" +
+            "T2BUhv96bVm/Ng36AALkPAJxedBDdf46Sjk4pG3HtJ63V1TXSPivt7rM9vhylY0yH4f4pqHmsXIj\n" +
+            "mxz2ZieXHLCV9Q8e9EtR8EMQfhW9EOx8eABh9qsKnZNGiuqiYIlxk4i1Q+d2xyG13+y17EQLWt2Z\n" +
+            "OFKP/R9qoUQV7LQHC7lLNVXQ8XhfT6cjnDFVmK2VC8Y4hMgCYz5hCTa1NI3+hQTsQ3FL3wvr53uR\n" +
+            "PWA6wqGOI6deGRLctotLbJr2TAYW/99xmmusY5366ypm/KCT9xXdFrAAbXigt3unh41hVP5y6MI=\n" +
             "-----END PUBLIC KEY-----\n";
 
     final static private String licenseHeader = "-----BEGIN MARKDOWN-NAVIGATOR LICENSE-----";
