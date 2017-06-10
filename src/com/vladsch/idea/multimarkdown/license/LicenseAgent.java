@@ -14,23 +14,12 @@
  */
 package com.vladsch.idea.multimarkdown.license;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.util.containers.HashMap;
-import com.intellij.util.net.HttpConfigurable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.crypto.NoSuchPaddingException;
-import javax.json.*;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import javax.json.JsonObject;
 import java.util.Map;
 
 /**
@@ -140,6 +129,7 @@ public class LicenseAgent {
     }
 
     public LicenseAgent(LicenseAgent other) {
+        this();
         updateFrom(other);
     }
 
@@ -175,42 +165,12 @@ public class LicenseAgent {
     }
 
     public void setLicenseCode(String license_code) {
-        String trimmed = license_code.trim();
-        if (!trimmed.equals(this.license_code == null ? "" : this.license_code)) {
-            this.license_code = trimmed;
-            setActivationCode(null);
-        }
     }
 
     public void setLicenseActivationCodes(String license_code, String activation_code) {
-        String trimmed = license_code.trim();
-        if (!trimmed.equals(this.license_code == null ? "" : this.license_code)) {
-            this.license_code = trimmed;
-            setActivationCode(activation_code);
-        } else {
-            setActivationCode(activation_code);
-        }
     }
 
     public void setActivationCode(String activation_code) {
-        if (activation_code != null) {
-            String trimmed = activation_code.trim();
-            if (!trimmed.equals(this.activation_code == null ? "" : this.activation_code)) {
-                this.activation_code = trimmed;
-                this.json = null;
-                this.activation = null;
-
-                if (!isValidActivation()) {
-                    this.activation_code = null;
-                    this.json = null;
-                    this.activation = null;
-                }
-            }
-        } else {
-            this.activation_code = null;
-            this.json = null;
-            this.activation = null;
-        }
     }
 
     @NotNull
@@ -225,7 +185,7 @@ public class LicenseAgent {
 
     @Nullable
     public String getLicenseExpires() {
-        return "Never Expires";
+        return "2099-12-31";//改成 2099 年才过期
     }
 
     @Nullable
@@ -260,209 +220,36 @@ public class LicenseAgent {
     }
 
     public LicenseAgent() {
-
+        featureList = new HashMap<>();
+        featureList.put("enhanced", 1);
+        featureList.put("development", 2);
     }
 
+    //此方法会想服务器请求激活信息
     public boolean getLicenseCode(LicenseRequest licenseRequest) {
-        licenseRequest.agent_signature = agent_signature;
-        String[] useLicenseUrls = new String[] { licenseURL, alt1LicenseURL, alt2LicenseURL };
-        InputStream inputStream = null;
-        String protocol = isSecureConnection ? "https://" : "http://";
-
-        for (String licenseUrl : useLicenseUrls) {
-            try {
-                final String useLicenseUrl = protocol + licenseUrl;
-                final HttpConfigurable httpConfigurable = (HttpConfigurable) ApplicationManager.getApplication().getComponent("HttpConfigurable");
-                final URLConnection urlConnection = httpConfigurable != null ? httpConfigurable.openConnection(useLicenseUrl) : new URL(useLicenseUrl).openConnection();
-
-                urlConnection.setDoOutput(true);
-                urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-                urlConnection.connect();
-                final OutputStream outputStream = urlConnection.getOutputStream();
-                if (LOG_AGENT_INFO) System.out.println(licenseRequest.toJsonString());
-                outputStream.write(licenseRequest.toJsonString().getBytes("UTF-8"));
-                outputStream.flush();
-                remove_license = false;
-
-                try {
-                    inputStream = urlConnection.getInputStream();
-                    lastCommunicationsError = null;
-                    break;
-                } catch (IOException e) {
-                    lastCommunicationsError = e.getMessage();
-                } finally {
-                    outputStream.close();
-                }
-            } catch (Throwable e) {
-                lastCommunicationsError = e.getMessage();
-            }
-        }
-
-        if (inputStream == null) return false;
-
-        lastCommunicationsError = null;
-
-        //BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        //StringBuilder sb = new StringBuilder();
-        //
-        //String line = null;
-        //try {
-        //    while ((line = reader.readLine()) != null) {
-        //        sb.append(line).append('\n');
-        //    }
-        //} catch (IOException e) {
-        //    e.printStackTrace();
-        //} finally {
-        //    try {
-        //        inputStream.close();
-        //    } catch (IOException e) {
-        //        e.printStackTrace();
-        //    }
-        //}
-        JsonReader jsonReader = Json.createReader(inputStream);
-        json = jsonReader.readObject();
-        String status = json.getString(STATUS, "");
-        String message = json.getString(MESSAGE, "");
-        if (status.equals(STATUS_OK)) {
-            if ((licenseRequest.hasLicenseCode() || json.containsKey(LICENSE_CODE)) && json.containsKey(ACTIVATION_CODE)) {
-                if (json.containsKey(LICENSE_CODE)) this.license_code = json.getString(LICENSE_CODE);
-                this.activation_code = json.getString(ACTIVATION_CODE);
-                return true;
-            } else {
-                if (LOG_AGENT_INFO) System.out.println("License server did not reply with a valid response");
-            }
-        } else {
-            if (status.equals(STATUS_DISABLE)) {
-                // remove license information from this plugin
-                if (LOG_AGENT_INFO) System.out.println("License server requested license removal from this host");
-                license_code = null;
-                activation_code = null;
-                activation = null;
-                remove_license = true;
-                status = STATUS_ERROR;
-            }
-            if (LOG_AGENT_INFO) System.out.println("License server replied with status: " + status + ", message: " + message);
-        }
-
         return true;
     }
 
     public boolean isValidLicense() {
-        /*if (license_code != null) {
-            int headerPos = license_code.indexOf(licenseHeader);
-            int footerPos = license_code.lastIndexOf(licenseFooter);
-            if (headerPos >= 0 && footerPos > headerPos) {
-                return true;
-            }
-
-            headerPos = license_code.indexOf(altLicenseHeader);
-            footerPos = license_code.lastIndexOf(altLicenseFooter);
-            if (headerPos >= 0 && footerPos > headerPos) {
-                return true;
-            }
-        }*/
         return true;
     }
 
     public boolean isValidActivation() {
-        if (activation_code != null) {
-            if (activation != null) {
-                if (isActivationExpired()) {
-                    activation = null;
-                    activation_code = null;
-                    return false;
-                }
-            }
-
-            if (activation == null) {
-                String useActivationHeader = activationHeader;
-                int headerPos = activation_code.indexOf(useActivationHeader);
-                int footerPos = activation_code.lastIndexOf(activationFooter);
-
-                if (!(headerPos >= 0 && footerPos > headerPos)) {
-                    useActivationHeader = altActivationHeader;
-                    headerPos = activation_code.indexOf(useActivationHeader);
-                    footerPos = activation_code.lastIndexOf(altActivationFooter);
-                }
-
-                if (headerPos >= 0 && footerPos > headerPos) {
-                    try {
-                        LicenseKey licenseKey = new LicenseKey(license_pub);
-                        String activationJson = licenseKey.decrypt(activation_code.substring(headerPos + useActivationHeader.length(), footerPos));
-
-                        if (activationJson != null) {
-                            byte[] bytes = activationJson.getBytes("UTF-8");
-                            InputStream stream = new ByteArrayInputStream(bytes);
-                            JsonReader jsonReader = Json.createReader(stream);
-                            activation = jsonReader.readObject();
-                        }
-                    } catch (NoSuchPaddingException ignored) {
-                    } catch (NoSuchAlgorithmException ignored) {
-                    } catch (IOException ignored) {
-                    } catch (InvalidKeySpecException ignored) {
-                    } catch (Exception ignored) {
-                    }
-                }
-            }
-
-            if (activation != null && activation.containsKey(AGENT_SIGNATURE) && activation.getString(AGENT_SIGNATURE, "").equals(agent_signature)
-                    && activation.containsKey(LICENSE_EXPIRES)
-                    && activation.containsKey(LICENSE_TYPE)
-                    && activation.containsKey(LICENSE_FEATURES)
-                    && activation.containsKey(LICENSE_FEATURE_LIST)
-                    && activation.containsKey(PRODUCT_VERSION)
-                    && activation.containsKey(HOST_NAME)
-                    && activation.containsKey(HOST_PRODUCT)
-                    && activation.getString(LICENSE_TYPE) != null
-                    && activation.getInt(LICENSE_FEATURES) != 0
-                    ) {
-                try {
-                    license_expires = activation.getString(LICENSE_EXPIRES);
-                    product_version = activation.getString(PRODUCT_VERSION);
-
-                    if (activation.containsKey(PRODUCT_RELEASED_AT)) {
-                        product_released_at = activation.getString(PRODUCT_RELEASED_AT);
-                    } else {
-                        product_released_at = "";
-                    }
-
-                    license_type = activation.getString(LICENSE_TYPE);
-                    license_features = activation.getInt(LICENSE_FEATURES);
-                    JsonObject feature_list = activation.getJsonObject(LICENSE_FEATURE_LIST);
-                    featureList = new HashMap<String, Integer>();
-                    for (Map.Entry<String, JsonValue> feature : feature_list.entrySet()) {
-                        if (feature.getValue() instanceof JsonNumber) {
-                            featureList.put(feature.getKey(), ((JsonNumber) feature.getValue()).intValue());
-                        }
-                    }
-                    return true;
-                } catch (JsonException ignored) {
-                    if (LOG_AGENT_INFO) System.out.println("Activation JsonException " + ignored);
-                } catch (ClassCastException ignored) {
-                    if (LOG_AGENT_INFO) System.out.println("Activation ClassCastException " + ignored);
-                } catch (Exception ignored) {
-                    if (LOG_AGENT_INFO) System.out.println("Activation Exception " + ignored);
-                }
-            }
-        }
-        return false;
+        return true;
     }
 
     @NotNull
     public String getLicenseType() {
-        return "License";
+        return LICENSE_TYPE_LICENSE;
     }
 
     public int getLicenseFeatures() {
-        return license_features;
+        return LicensedFeature.Feature.LICENSE.getLicenseFlags();//其实就是 4
     }
 
     @NotNull
     public String getLicenseExpiration() {
-        if (activation != null && activation.containsKey(LICENSE_EXPIRES)) {
-            return activation.getString(LICENSE_EXPIRES);
-        }
-        return "";
+        return "2099-12-31";//也改成 2099 年
     }
 
     @NotNull
@@ -483,26 +270,11 @@ public class LicenseAgent {
 
     @NotNull
     public String getActivatedOn() {
-        if (activation != null && activation.containsKey(ACTIVATED_ON)) {
-            return activation.getString(ACTIVATED_ON);
-        }
-        return "";
+        return "2017-01-01";//改成在 2017 年 1 月激活的
     }
 
     public int getLicenseExpiringIn() {
-        // see if the license expiration is more than i days away
-        /*if (activation != null && activation.containsKey(LICENSE_EXPIRES)) {
-            DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-            try {
-                String expires = activation.getString(LICENSE_EXPIRES);
-                Date expiration = df.parse(expires);
-                Date today = new Date();
-                int days = (int) Math.floor((expiration.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-                return days + 1;
-            } catch (ParseException ignored) {
-            }
-        }*/
-        return 36000;//days
+        return Integer.MAX_VALUE;//天
     }
 
     public boolean getProductIsPerpetual() {
@@ -529,29 +301,6 @@ public class LicenseAgent {
     }
 
     public boolean isActivationExpired() {
-        // see if the activation has expired
-//        if (activation != null) {
-//            if (product_version == null || !product_version.equals(MultiMarkdownPlugin.getProductVersion())
-//                    //|| !getHostName().equals(LicenseRequest.getHostName())
-//                    || !getHostProduct().equals(LicenseRequest.getHostProduct())
-//                    ) {
-//                return true;
-//            }
-//
-//            if (activation.containsKey(ACTIVATION_EXPIRES)) {
-//                DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-//                try {
-//                    String expires = activation.getString(ACTIVATION_EXPIRES);
-//                    Date expiration = df.parse(expires);
-//                    Date today = new Date();
-//                    int days = (int) floorDiv(expiration.getTime() - today.getTime(), (1000 * 60 * 60 * 24));
-//                    return days < 0;
-//                } catch (ParseException ignored) {
-//                    return true;
-//                }
-//            }
-//            return false;
-//        }
         return false;
     }
 }
