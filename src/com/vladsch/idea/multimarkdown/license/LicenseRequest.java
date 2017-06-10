@@ -92,7 +92,7 @@ public class LicenseRequest {
         this.host_name = "Hello World";
         this.host_product = "Hello World";
         this.host_os = "Hello World";
-        this.host_jre = System.getProperty("java.version");
+        this.host_jre = "Hello World";
     }
 
     public static String getHostName() {
