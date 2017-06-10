@@ -22,3 +22,6 @@
 
 ![破解成功](http://wx1.sinaimg.cn/mw690/a6e9cb00ly1fgglos5opuj20t90jjjtn.jpg)
 >这个天数，哈哈哈，设置 Integer.MAX_VALUE 是不是有点高了。。。
+
+![破解版本](http://wx4.sinaimg.cn/mw690/a6e9cb00ly1fggm552ub7j20l00ghwfu.jpg)
+我破解的版本是 2.3.7 版本
