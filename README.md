@@ -32,15 +32,9 @@ open lib
 ![替换 jar 包](http://wx2.sinaimg.cn/mw690/a6e9cb00ly1fggoxvajfnj21b61hie2s.jpg)
 
 ## 附：破解成功后的截图
-Windwos:
+解锁全部姿势:
 
-![顶部菜单](http://wx3.sinaimg.cn/mw690/a6e9cb00ly1fgglsgj65ej20wg01qmx8.jpg)
-
-Mac:
-
-![Mac 顶部菜单](http://wx2.sinaimg.cn/mw690/a6e9cb00ly1fggoxvn9sdj21kw04fmyp.jpg)
-
-解放全部功能！
+![顶部菜单](http://wx1.sinaimg.cn/mw690/a6e9cb00ly1fgh5r3ktnrj21ec0cftc9.jpg)
 
 ![破解成功](http://wx3.sinaimg.cn/mw690/a6e9cb00ly1fggoxu26ohj21ks17mn91.jpg)
 >这个天数，哈哈哈，设置 `Integer.MAX_VALUE` 是不是有点高了。。。
