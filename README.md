@@ -10,7 +10,7 @@
 
 ## 修改文件
 
-将 `LicenseAgent.class` 文件拷贝到 Markdown Navigator 插件安装目录 `/lib/idea-multimarkdown.jar` 包中的 `com.vladsch\idea\multimarkdown\license` 目录下，覆盖原有的 `LicenseAgent.class` 文件
+将 [`LicenseAgent.class` 文件](https://github.com/CrazyBunQnQ/multimarkdown/releases/tag/2.7.0)拷贝到 Markdown Navigator 插件安装目录 `/lib/idea-multimarkdown.jar` 包中的 `com.vladsch\idea\multimarkdown\license` 目录下，覆盖原有的 `LicenseAgent.class` 文件
 
 >具体修改方法、内容感兴趣的可以看后面的[详细破解方法](#破解全过程)和 [`LicenseAgent.java` 注释](https://github.com/CrazyBunQnQ/multimarkdown)
 
@@ -45,11 +45,13 @@ open lib
 ![替换 jar 包](http://wx2.sinaimg.cn/mw690/a6e9cb00ly1fggoxvajfnj21b61hie2s.jpg)
 
 ## 附：破解成功后的截图
+
 解锁全部姿势:
 
 ![顶部菜单](http://wx1.sinaimg.cn/mw690/a6e9cb00ly1fgh5r3ktnrj21ec0cftc9.jpg)
 
 ![破解成功](http://wx1.sinaimg.cn/large/a6e9cb00ly1fzpvwns7oej20u00uwnc2.jpg)
+
 >这个天数，哈哈哈，设置 `Integer.MAX_VALUE` 是不是有点高了。。。
 
 ## 破解全过程
