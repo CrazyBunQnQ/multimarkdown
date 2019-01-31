@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 Vladimir Schneider <vladimir.schneider@gmail.com>, all rights reserved.
+ * Copyright (c) 2015-2018 Vladimir Schneider <vladimir.schneider@gmail.com>, all rights reserved.
  *
  * This code is private property of the copyright holder and cannot be used without
  * having obtained a license or prior written permission of the of the copyright holder.
@@ -15,16 +15,13 @@
 package com.vladsch.idea.multimarkdown.license;
 
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.util.containers.HashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.json.JsonObject;
+import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by CrazyBunQnQ on 2017/6/10.
- */
 public class LicenseAgent {
     private static final Logger logger = Logger.getInstance("com.vladsch.idea.multimarkdown.license.agent");
 
@@ -33,15 +30,18 @@ public class LicenseAgent {
 
     final static private String agent_signature = "475f99b03f6ec213729d7f5d577c80aa";
     final static private String license_pub = "-----BEGIN PUBLIC KEY-----\n" +
-            "JQmNor+RZiEmKUIUMD9JdHkGgl8UJ7E9kz9T9CBN3qjD0aPIe7nRsL8wwHu2XDTp72GmCspZ9zjF\n" +
-            "JFx3iDDXm38t7ajQjE4qYw1cwVOrmCScLC6dyfq/OaPr64e2QCbKHCl+gH9IhOMFEsKuoHBAhwgW\n" +
-            "EBxt/HQkIKB/gayOL5LI2Op6UbjZqKp9OE5/ziY09cLV5tsO4tTOfcijyyBa0j91qatEyIYeNR37\n" +
-            "CPfKHNo5GVflUIb6ZH+OUARt0WI5Xw8VqGxX+52Sr/SdNCbDaFD15fs17k40fi+aIYR6FwRRERAS\n" +
-            "cGTu6N583oCpzCYJxZ00TiTkH4MZPppj4vOKPLpCa8YKMp/axE7dO7WowdQRtEFmhlWCL36OugQG\n" +
-            "T2BUhv96bVm/Ng36AALkPAJxedBDdf46Sjk4pG3HtJ63V1TXSPivt7rM9vhylY0yH4f4pqHmsXIj\n" +
-            "mxz2ZieXHLCV9Q8e9EtR8EMQfhW9EOx8eABh9qsKnZNGiuqiYIlxk4i1Q+d2xyG13+y17EQLWt2Z\n" +
-            "OFKP/R9qoUQV7LQHC7lLNVXQ8XhfT6cjnDFVmK2VC8Y4hMgCYz5hCTa1NI3+hQTsQ3FL3wvr53uR\n" +
-            "PWA6wqGOI6deGRLctotLbJr2TAYW/99xmmusY5366ypm/KCT9xXdFrAAbXigt3unh41hVP5y6MI=\n" +
+            "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAlnefMGqNu1Q9hcI2Rd8G\n" +
+            "xyKlXQIFyXWIkYODRrLjvEwXYw0yksgjZeIC4g+hakyQNiN+TGE/xvo3fqB0CU4A\n" +
+            "aE33Mu7jB27dt1IItcmBhJBwIhmZDc0SWNj6ywvnLeUU/NSWWbJ1SaXzPQJ2Mm5T\n" +
+            "Mr3wDFhCTp80pN4svOQmdQPFSKXwdGI+n8gJvc28vRgD8As2XxgkYsZPNjefOsla\n" +
+            "GHS8CNw6uI8Ijcf9hfX22twQZ+auYNL/vqtBEKq2jNLwoHTo68s+0JWJu2YILlIe\n" +
+            "VQzXcXZyhhAVdZrMNGhBPiXUia6YrJpqZNDZ35CE+Y6ecs9c5AG2wpFJHnic2cjZ\n" +
+            "Kh+ba83DpA3GxYa1OGMGZNaIqCjuK7A82ZPriXsoxL6YJzqSlbF/2l2x4Y3VoVTF\n" +
+            "LWKEpjvLOuDOev0CH41nzkGD4Yo5CwHPZFun/WekqUBUXtxR/uH0ThoxV93exTLc\n" +
+            "YwWC5GqVZfN38Ye7iDljIFVzxxP3unBy0FItg52407CZyH/gTB+Zm++fZJdKbZcl\n" +
+            "UFvxtACEJvdgdM30FHuQlvS53mEXOMAzpJPVZu2gRoTl8cSO3GKxaNP9dmPCzD4a\n" +
+            "gO/kVrO/c6DerwWvCJJhifKlDc6CfjM3FfWsVI2gw3WduFPJcIsLxlUqzBh95rA1\n" +
+            "R+BTr2n3DV41OK5AwtCQO40CAwEAAQ==\n" +
             "-----END PUBLIC KEY-----\n";
 
     final static private String licenseHeader = "-----BEGIN MARKDOWN-NAVIGATOR LICENSE-----";
@@ -117,7 +117,7 @@ public class LicenseAgent {
     private boolean remove_license;
     private String license_type;
     private int license_features;
-    private Map<String, Integer> featureList = new HashMap<String, Integer>();
+    private Map<String, Integer> featureList = new HashMap<>();
     private String lastCommunicationsError = null;
     private boolean isSecureConnection = true;
 
@@ -125,6 +125,10 @@ public class LicenseAgent {
         return featureList;
     }
 
+    /**
+     * 先走默认构造器
+     * @param other
+     */
     public LicenseAgent(LicenseAgent other) {
         this();
         updateFrom(other);
@@ -161,12 +165,21 @@ public class LicenseAgent {
         return tryPageURL;
     }
 
+    /**
+     * 不设置任何东西
+     */
     public void setLicenseCode(String license_code) {
     }
 
+    /**
+     * 不设置任何东西
+     */
     public void setLicenseActivationCodes(String license_code, String activation_code) {
     }
 
+    /**
+     * 不设置任何东西
+     */
     public void setActivationCode(String activation_code) {
     }
 
@@ -180,9 +193,13 @@ public class LicenseAgent {
         return license_code != null ? license_code : "";
     }
 
+    /**
+     * 改过期时间
+     * @return
+     */
     @Nullable
     public String getLicenseExpires() {
-        return "2099-12-31";//改成 2099 年才过期
+        return "9999-12-31";
     }
 
     @Nullable
@@ -216,37 +233,57 @@ public class LicenseAgent {
         return lastCommunicationsError;
     }
 
+    /**
+     * 添加功能
+     */
     public LicenseAgent() {
         featureList = new HashMap<>();
         featureList.put("enhanced", 1);
         featureList.put("development", 2);
     }
 
-    //此方法会想服务器请求激活信息
-    public boolean getLicenseCode(LicenseRequest licenseRequest) {
+    /**
+     * 直接返回 true
+     */
+    public boolean  getLicenseCode(LicenseRequest licenseRequest) {
         return true;
     }
 
+    /**
+     * 直接返回 true
+     */
     public boolean isValidLicense() {
         return true;
     }
 
+    /**
+     * 直接返回 true
+     */
     public boolean isValidActivation() {
         return true;
     }
 
+    /**
+     * 修改为具体值
+     */
     @NotNull
     public String getLicenseType() {
         return LICENSE_TYPE_LICENSE;
     }
 
+    /**
+     * 修改为具体值
+     */
     public int getLicenseFeatures() {
         return LicensedFeature.Feature.LICENSE.getLicenseFlags();//其实就是 4
     }
 
+    /**
+     * 设置到期日
+     */
     @NotNull
     public String getLicenseExpiration() {
-        return "2099-12-31";//也改成 2099 年
+        return "9999-12-31";
     }
 
     @NotNull
@@ -265,13 +302,19 @@ public class LicenseAgent {
         return "";
     }
 
+    /**
+     * 设置注册日期
+     */
     @NotNull
     public String getActivatedOn() {
-        return "2017-01-01";//改成在 2017 年 1 月激活的
+        return "2018-01-01";
     }
 
+    /**
+     * 设置剩余天数
+     */
     public int getLicenseExpiringIn() {
-        return Integer.MAX_VALUE;//天
+        return Integer.MAX_VALUE;
     }
 
     public boolean getProductIsPerpetual() {
@@ -297,6 +340,10 @@ public class LicenseAgent {
         return var4;
     }
 
+    /**
+     * 直接返回否：未过期
+     * @return
+     */
     public boolean isActivationExpired() {
         return false;
     }
